@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -9,8 +9,6 @@ import { Form, Formik } from "formik";
 import { signIn } from "@/services/authService";
 
 const Signin = () => {
-
-  
   const initialValues = {
     email: "",
     password: "",

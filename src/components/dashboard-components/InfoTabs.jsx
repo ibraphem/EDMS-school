@@ -24,8 +24,8 @@ export function InfoTabs() {
   ];
   return (
     <Tabs defaultValue="account" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger className="text-sm p-0" value="details">
+      <TabsList className="grid w-full grid-cols-2 p-0">
+        <TabsTrigger className="text-sm p-1" value="details">
           Details
         </TabsTrigger>
         <TabsTrigger value="activities">Activities</TabsTrigger>
