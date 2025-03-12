@@ -1,10 +1,24 @@
+"use client"
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import CustomInput from "@/components/customs/CustomInput";
+import { signInSchema } from "@/utils/formValidationSchema";
+import { Form, Formik } from "formik";
 
 const Signin = () => {
+
+  
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const handleSubmit = async (values) => {
+    console.log(values);
+  };
+
   return (
     <div className="flex justify-center items-center md:justify-start md:items-start md:grid grid-cols-8 h-screen w-full relative">
       <h3 className="font-bold text-3xl text-primary z-1 absolute top-6 left-6 md:hidden">
@@ -36,16 +50,46 @@ const Signin = () => {
         </p>
 
         <div className="mt-10">
-          <Input
-            type="email"
-            placeholder="Email address"
-            className="w-full mb-4"
-          />
-          <Link href="/forgot-password">
-            <Button className="w-full">Login</Button>
-          </Link>
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            onSubmit={(values) => handleSubmit(values)}
+            validationSchema={signInSchema}
+          >
+            {({
+              errors,
+              touched,
+              handleBlur,
+              handleChange,
+              values,
+              isSubmitting,
+            }) => (
+              <Form>
+                <CustomInput
+                  placeholder="Enter Email Address"
+                  name="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.email}
+                  error={errors?.email}
+                  touched={touched?.email}
+                />
+                <CustomInput
+                  type="password"
+                  placeholder="Enter Password"
+                  name="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.password}
+                  error={errors?.password}
+                  touched={touched?.password}
+                />
+                <Button className="w-full py-6 mt-2">Login</Button>
+              </Form>
+            )}
+          </Formik>
           <p
-            className="text-input mt-2
+            className="text-input mt-3
         "
           >
             Don’t remember your password?{" "}
