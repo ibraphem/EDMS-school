@@ -6,6 +6,7 @@ import Link from "next/link";
 import CustomInput from "@/components/customs/CustomInput";
 import { signInSchema } from "@/utils/formValidationSchema";
 import { Form, Formik } from "formik";
+import { signIn } from "@/services/authService";
 
 const Signin = () => {
 
@@ -16,7 +17,8 @@ const Signin = () => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values);
+    let res = await signIn(values)
+    console.log("res", res);
   };
 
   return (
