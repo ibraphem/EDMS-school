@@ -39,7 +39,7 @@ const Signin = () => {
           <Input
             type="email"
             placeholder="Email address"
-            className="w-full mb-4"
+            className="w-full mb-4 p-10"
           />
           <Link href="/forgot-password">
             <Button className="w-full">Login</Button>
