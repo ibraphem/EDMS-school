@@ -27,7 +27,7 @@ function DashboardLayout({ children }) {
     { label: "Workbench", href: "/dashboard" },
     { label: "Requests", href: "/dashboard/requests" },
     { label: "Files", href: "/dashboard/files" },
-    { label: "User Management", href: "/dashboard/user-management" },
+    { label: "User Management", href: "/dashboard/users" },
   ];
 
   const filesMenuItems = [
@@ -149,14 +149,14 @@ function DashboardLayout({ children }) {
         <header className="bg-white h-16 px-8 flex items-center justify-between">
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+            {/* <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
               type="text"
               placeholder="Search for anything"
               className={`${
                 isFilesSidebarOpen ? "w-[380px]" : "w-[250px]"
               } pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            />
+            /> */}
           </div>
           <div className="flex items-center space-x-4">
             {/* Notifications */}

@@ -7,23 +7,30 @@ import CustomInput from "@/components/customs/CustomInput";
 import { signInSchema } from "@/utils/formValidationSchema";
 import { Form, Formik } from "formik";
 import { signIn } from "@/services/authService";
-import { useRouter } from "next/navigation";
-// import { SnackbarUtils } from "@/components/customs/CustomNotification";
+import { useRouter } from 'next/navigation';
+import { useDispatch } from "react-redux";
+import { addLoginUser } from "@/redux/slices/authSlice";
+import SnackbarUtils from "../../components/customs/CustomNotification";
 
 const Signin = () => {
-  const router = useRouter();
+  const router = useRouter()
+  const dispatch = useDispatch()
   const initialValues = {
     email: "",
     password: "",
   };
 
   const handleSubmit = async (values) => {
-    let res = await signIn(values);
-    if (res?.token) {
-      router.push("/dashboard");
-    } else {
-      // SnackbarUtils.error("invalid credential");
+    let res = await signIn(values)
+    dispatch(addLoginUser(res))
+    if(res?.token){
+      SnackbarUtils.success("Login Successful");
+    }else{
+      SnackbarUtils.error("Invalid Credential");
     }
+    router.push("/dashboard")
+    
+    console.log("res", res);
   };
 
   return (
@@ -91,9 +98,13 @@ const Signin = () => {
                   error={errors?.password}
                   touched={touched?.password}
                 />
+<<<<<<< HEAD
                 <Button type="submit" className="w-full py-6 mt-2">
                   Login
                 </Button>
+=======
+                <Button disabled={isSubmitting} className="w-full py-6 mt-2">{isSubmitting ? "Please, wait.." : "Login"}</Button>
+>>>>>>> 079233de1e2a14d0ecbc567124b0a1f2fe7f2cb4
               </Form>
             )}
           </Formik>
