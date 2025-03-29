@@ -24,7 +24,7 @@ const CustomInput = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className="relative w-full mb-7">
+    <div className="relative w-full mb-4">
       <Input
         type={showPassword ? "text" : type}
         placeholder={placeholder}

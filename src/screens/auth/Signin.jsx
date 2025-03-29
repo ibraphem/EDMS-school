@@ -7,16 +7,23 @@ import CustomInput from "@/components/customs/CustomInput";
 import { signInSchema } from "@/utils/formValidationSchema";
 import { Form, Formik } from "formik";
 import { signIn } from "@/services/authService";
+import { useRouter } from "next/navigation";
+// import { SnackbarUtils } from "@/components/customs/CustomNotification";
 
 const Signin = () => {
+  const router = useRouter();
   const initialValues = {
     email: "",
     password: "",
   };
 
   const handleSubmit = async (values) => {
-    let res = await signIn(values)
-    console.log("res", res);
+    let res = await signIn(values);
+    if (res?.token) {
+      router.push("/dashboard");
+    } else {
+      // SnackbarUtils.error("invalid credential");
+    }
   };
 
   return (
@@ -84,7 +91,9 @@ const Signin = () => {
                   error={errors?.password}
                   touched={touched?.password}
                 />
-                <Button className="w-full py-6 mt-2">Login</Button>
+                <Button type="submit" className="w-full py-6 mt-2">
+                  Login
+                </Button>
               </Form>
             )}
           </Formik>
