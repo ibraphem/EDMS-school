@@ -11,10 +11,17 @@ import {
 
 import TableComponent from "@/components/dashboard-components/TableComponent";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DatePicker } from "@/components/dashboard-components/DatePicker";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRequests } from "@/redux/slices/requestSlice";
+import CustomDataTable from "@/components/customs/CustomDataTable";
 
 const Requests = () => {
+  const dispatch = useDispatch();
+  const requestData = useSelector((state) => state?.request);
+  const { requests, requestLoading } = requestData;
   const [selectedDate, setSelectedDate] = useState(null);
   const handleViewDetails = (row) => {
     console.log("clicked");
@@ -23,15 +30,62 @@ const Requests = () => {
     // );
   };
 
+  useEffect(() => {
+    dispatch(fetchRequests());
+  }, []);
+
   const handleRowClick = (row) => {
     handleViewDetails(row);
   };
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Title",
+        accessor: "title",
+      },
+      {
+        Header: "Request Id",
+        accessor: "fileId",
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Date Initiated",
+        accessor: "createdOn",
+      },
+      {
+        Header: "Status",
+        accessor: (row) => `${row.status}`,
+        Cell: ({ value }) => {
+          return (
+            <span
+              className={`px-3 py-1 text-sm rounded-lg ${
+                value === "pending"
+                  ? "text-[#FDB100] bg-[#FDB100]/50 "
+                  : value === "completed"
+                  ? "text-[#257F0D] bg-[#257F0D]/50"
+                  : "text-[#E20010] bg-[#E20010]/50"
+              }`}
+            >
+              {value}
+            </span>
+          );
+        },
+      },
+    ],
+    []
+  );
 
   return (
     <div className="pb-[100px]">
       <div className="flex justify-between items-center w-full mb-6">
         <h3 className="font-bold text xl">Good Morning Oreoluwa,</h3>
-        <Button>Start Now</Button>
+        <Link href="/dashboard/requests/new" className="text-blue-500">
+          <Button>Start Now</Button>
+        </Link>
       </div>
       <div className="flex justify-between items-center w-full mb-10">
         <div className="flex items-center">
@@ -82,126 +136,13 @@ const Requests = () => {
           <span>10 New Tasks</span> <span>8 Tasks in view</span>
         </div>
       </div>
-      <TableComponent
+      <CustomDataTable
         data={requests}
         columns={columns}
-        onRowClick={handleRowClick}
-        className="min-w-full divide-y divide-gray-200"
-        headerClassName="bg-gray-50 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-        rowClassName="bg-white hover:bg-blue-50 transition-colors duration-150 cursor-pointer"
-        cellClassName="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+        loading={requestLoading}
       />
     </div>
   );
 };
 
 export default Requests;
-
-const columns = [
-  {
-    key: "title",
-    header: "Title",
-    render: (row) => {
-      return <span className="text-sm text-input">{row.title}</span>;
-    },
-  },
-  {
-    key: "requestType",
-    header: "Request Type",
-    render: (row) => {
-      return <span className="text-sm text-input">{row.requestType}</span>;
-    },
-  },
-  {
-    key: "requestId",
-    header: "Request ID",
-    render: (row) => {
-      return <span className="text-sm text-input">{row.requestId}</span>;
-    },
-  },
-  {
-    key: "dateInitiated",
-    header: "Date Initiated",
-    render: (row) => {
-      return <span className="text-sm text-input">{row.dateInitiated}</span>;
-    },
-  },
-  {
-    key: "status",
-    header: "Status",
-    render: (row) => {
-      return (
-        <span
-          className={`px-3 py-1 text-sm rounded-lg ${
-            row.status === "Pending"
-              ? "text-[#FDB100] bg-[#FDB100]/50 "
-              : row.status === "Completed"
-              ? "text-[#257F0D] bg-[#257F0D]/50"
-              : "text-[#E20010] bg-[#E20010]/50"
-          }`}
-        >
-          {row.status}
-        </span>
-      );
-    },
-  },
-];
-
-const requests = [
-  {
-    title: "Request for staff lunch",
-    requestType: "Expenditure Clearance",
-    requestId: "MIT/24/MOF/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Pending",
-  },
-  {
-    title: "Request for infrastructural repairs",
-    requestType: "Warrant Request",
-    requestId: "MIT/24/MOI/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Rejected",
-  },
-  {
-    title: "Request for entrepreneurship training",
-    requestType: "Payment Request",
-    requestId: "MIT/24/MOS/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Pending",
-  },
-  {
-    title: "Request for inter-ministry games",
-    requestType: "Payment Request",
-    requestId: "MIT/24/MOS/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Completed",
-  },
-  {
-    title: "Request for staff lunch",
-    requestType: "Expenditure Clearance",
-    requestId: "MIT/24/MOF/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Pending",
-  },
-  {
-    title: "Request for infrastructural repairs",
-    requestType: "Warrant Request",
-    requestId: "MIT/24/MOI/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Rejected",
-  },
-  {
-    title: "Request for entrepreneurship training",
-    requestType: "Payment Request",
-    requestId: "MIT/24/MOS/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Pending",
-  },
-  {
-    title: "Request for inter-ministry games",
-    requestType: "Payment Request",
-    requestId: "MIT/24/MOS/C0123456",
-    dateInitiated: "25/FEB/2024",
-    status: "Completed",
-  },
-];

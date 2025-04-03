@@ -11,10 +11,20 @@ import {
 
 import TableComponent from "@/components/dashboard-components/TableComponent";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DatePicker } from "@/components/dashboard-components/DatePicker";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWorkbenchData } from "@/redux/slices/requestSlice";
 
 const Workbench = () => {
+  const dispatch = useDispatch();
+  const workbenchData = useSelector((state) => state?.request?.workbenchData);
+  console.log("workbenchData", workbenchData);
+
+  useEffect(() => {
+    dispatch(fetchWorkbenchData());
+  }, []);
+
   const [selectedDate, setSelectedDate] = useState(null);
   const handleViewDetails = (row) => {
     console.log("clicked");

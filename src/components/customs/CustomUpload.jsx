@@ -20,6 +20,33 @@ const CustomUpload = ({
   const [fileError, setFileError] = useState("");
   const [showUpload, setshowUpload] = useState(false);
 
+  // const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  //   accept: fileTypeValidation,
+  //   multiple: multi,
+  //   onDropRejected: (fileRejections) => {
+  //     setFileError(`${fileRejections[0]?.file?.name} is an Invalid File Type`);
+  //   },
+  //   onDrop: (acceptedFiles) => {
+  //     let validFile = true;
+
+  //     acceptedFiles.forEach((file) => {
+  //       if (file.size > FILE_SIZE) {
+  //         setFileError(`${file.name} is too large. Maximum size is 100MB.`);
+  //         validFile = false;
+  //         return;
+  //       }
+  //     });
+
+  //     if (validFile) {
+  //       if (multi) {
+  //         setFile((prevFiles) => [...prevFiles, ...acceptedFiles]);
+  //       } else {
+  //         setFile(acceptedFiles[0]);
+  //       }
+  //     }
+  //   },
+  // });
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: fileTypeValidation,
     multiple: multi,
@@ -27,23 +54,33 @@ const CustomUpload = ({
       setFileError(`${fileRejections[0]?.file?.name} is an Invalid File Type`);
     },
     onDrop: (acceptedFiles) => {
-      let validFile = true;
+      let validFiles = [];
 
-      acceptedFiles.forEach((file) => {
+      acceptedFiles.forEach((file, index) => {
         if (file.size > FILE_SIZE) {
           setFileError(`${file.name} is too large. Maximum size is 100MB.`);
-          validFile = false;
           return;
         }
-      });
 
-      if (validFile) {
-        if (multi) {
-          setFile((prevFiles) => [...prevFiles, ...acceptedFiles]);
-        } else {
-          setFile(acceptedFiles[0]);
-        }
-      }
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const base64File = {
+            name: file.name?.replace(/\.[^/.]+$/, ""),
+            extension: "." + file.name.split(".").pop(),
+            data: reader.result.split(",")[1], // Extracting base64 data
+          };
+          validFiles.push(base64File);
+
+          if (validFiles.length === acceptedFiles.length) {
+            setFile(
+              multi
+                ? (prevFiles) => [...prevFiles, ...validFiles]
+                : validFiles[0]
+            );
+          }
+        };
+      });
     },
   });
 
@@ -91,7 +128,7 @@ const CustomUpload = ({
                   <p className="text-center text-primary font-[600] text-md">
                     {placeholder}
                   </p>
-                  <div className="text-center font-[500] text-sm">
+                  <div className="text-center font-[500] text-[12px]">
                     {acceptableFiles}{" "}
                   </div>
                 </div>

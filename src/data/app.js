@@ -109,3 +109,42 @@ export const departments = [
     domainEvents: [],
   },
 ];
+
+export const roles = [
+  {
+    id: "2586deb3-2cae-459f-9def-79313ffb818b",
+    name: "team_member",
+    description: "team_member Role for root Tenant",
+    permissions: null,
+  },
+  {
+    id: "58a4fcc7-e854-4569-96fb-da7db163020d",
+    name: "User",
+    description: "Basic Role for root Tenant",
+    permissions: null,
+  },
+  {
+    id: "7c4b06f7-68b7-4e7e-a0ba-c341f1cca8f1",
+    name: "Admin",
+    description: "Admin Role for root Tenant",
+    permissions: null,
+  },
+  {
+    id: "8862a723-7c71-4a65-ac65-8fd472ba6d70",
+    name: "perm_sec",
+    description: "perm_sec Role for root Tenant",
+    permissions: null,
+  },
+  {
+    id: "96e356af-709f-4463-a975-1a58b9ce0c4e",
+    name: "dept_head",
+    description: "dept_head Role for root Tenant",
+    permissions: null,
+  },
+  {
+    id: "e22e79c3-fa0a-4cec-b7db-1c44b0d7e519",
+    name: "Basic",
+    description: "Basic Role for root Tenant",
+    permissions: null,
+  },
+];

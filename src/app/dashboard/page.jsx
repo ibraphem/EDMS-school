@@ -1,10 +1,10 @@
 import React from "react";
-import Requests from "@/screens/dashboard/Requests";
+import Workbench from "@/screens/dashboard/Workbench";
 
 const page = () => {
   return (
     <>
-      <Requests />
+      <Workbench />
     </>
   );
 };

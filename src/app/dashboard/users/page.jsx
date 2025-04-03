@@ -1,12 +1,8 @@
-import UserManagement from "@/screens/UserManagement";
+import Users from "@/screens/dashboard/Users";
 import React from "react";
 
 const page = () => {
-  return (
-    <div className="justify-center">
-      <UserManagement />
-    </div>
-  );
+  return <Users />;
 };
 
 export default page;

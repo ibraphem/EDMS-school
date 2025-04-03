@@ -10,6 +10,7 @@ const httpRequest = async (
   contentType = "application/json"
 ) => {
   const token = store.getState()?.auth?.authUser?.token;
+
   try {
     const response = await axios({
       url,
